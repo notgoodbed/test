@@ -15,6 +15,15 @@
         button{
             all:unset
         }
+        #main{
+            /* background: no-repeat bottom url("cameraBackground.png"); */
+
+            /* height: 100vh; */
+            background-color: rgba(186, 199, 212, 0.801);
+            background-image: url(cameraBackground.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
     </style>
     <script type="text/javascript">
     
@@ -73,15 +82,15 @@
         }
     </script>
 </head>
-<body class="container" style="text-align:center">
-    
-    <div class="mt-3"><h1>이름</h1></div>
-    <button type="button" onclick="init()" id = "die">Start</button>
-    
-    <div id="webcam-container"></div>
-    <div id="label-container" style="text-align: centor;"></div>
-    <button type="button" onclick="predict()">판독시작</button>
-    
+<body class="container" style="text-align:center" id = "main">
+    <div>
+        <div class="mt-3"><h1>이름</h1></div>
+        <button type="button" onclick="init()" id = "die">Start</button>
+        
+        <div id="webcam-container"></div>
+        <div id="label-container" style="text-align: centor;"></div>
+        <button type="button" onclick="predict()">판독시작</button>
+    </div>
 </body>
 </html>
     
