@@ -9,9 +9,18 @@
         body{
             background-image: url(3.png);
         }
+        button{
+            all:unset
+        }
     </style>
+        <script>
+            async function next(){
+                console.log(1)
+                window.location.href = "main.html"
+            }
+        </script>
 </head>
 <body>
-    
+    <button type="button" onClick="next()">처음으로</button>
 </body>
 </html>
