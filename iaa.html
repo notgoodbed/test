@@ -51,12 +51,11 @@
             maxPredictions = model.getTotalClasses();
 
             // Convenience function to setup a webcam
-            const flip = true; // whether to flip the webcam
+            const flip = false; // whether to flip the webcam
             webcam = new tmImage.Webcam(322, 322, flip); // width, height, flip
-            await webcam.setup(); // request access to the webcam
+            await webcam.setup({ facingMode: "environment" }); // request access to the webcam
             await webcam.play();
             window.requestAnimationFrame(loop);
-            //document.getElementById('img_btn').style.display = 'block'
             // append elements to the DOM
             document.getElementById("webcam-container").appendChild(webcam.canvas);
             labelContainer = document.getElementById("label-container");
