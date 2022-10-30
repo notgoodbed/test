@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+
     <title>Camera Web App</title>
     <style>
         html, body{
@@ -35,7 +39,7 @@
         }
 
         #camera--view, #camera--sensor, #camera--output{
-            transform: scaleX(-1);
+            transform: scaleX(1);
             filter: FlipH;
         }
 
@@ -85,6 +89,9 @@
 
 
     <script>
+        const URL = "https://teachablemachine.withgoogle.com/models/ORJErg5B6/";
+        let model, webcam, labelContainer, maxPredictions;
+
 
         let constraints = { video: { facingMode: "environment"}, audio: false};
         const cameraView = document.querySelector("#camera--view");
@@ -105,17 +112,27 @@
                 })
         }
 
-        //촬영 버튼 클릭 리스너
+                //촬영 버튼 클릭 리스너
         cameraTrigger.addEventListener("click", function(){
             
             cameraSensor.width = cameraView.videoWidth; //640으로 정해져서 나오네?
             cameraSensor.height = cameraView.videoHeight;
             cameraSensor.getContext("2d").drawImage(cameraView, 0, 0);
             cameraOutput.src = cameraSensor.toDataURL("image/webp");
+            console.log(cameraOutput.src)
             cameraOutput.classList.add("taken");
             console.log(cameraSensor.height);
+            predict(cameraOutput.src)
         });
-    
+        async function predict(i) {
+            // predict can take in an image, video or canvas html element
+            const prediction = await model.predict(webcam.canvas);
+            for (let i = 0; i < maxPredictions; i++) {
+                const classPrediction =
+                    prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+                labelContainer.childNodes[i].innerHTML = classPrediction;
+            }
+        }
         // 페이지가 로드되면 함수 실행
         window.addEventListener("load", cameraStart, false);
     </script>
