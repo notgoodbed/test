@@ -56,7 +56,7 @@
             await webcam.setup(); // request access to the webcam
             await webcam.play();
             window.requestAnimationFrame(loop);
-            document.getElementById('img_btn').style.display = 'block'
+            //document.getElementById('img_btn').style.display = 'block'
             // append elements to the DOM
             document.getElementById("webcam-container").appendChild(webcam.canvas);
             labelContainer = document.getElementById("label-container");
@@ -89,9 +89,12 @@
             init()
         </script>
         
-        <div id="webcam-container" style="margin-top: 40%;"></div>
-        <button type="button" onclick="predict()" id="img_btn" style="display:none; margin-top: 15px;"><img  src="buttonimage.png"></button>
-        <div id="label-container" style="text-align: centor;"></div>
+        <div id="webcam-container" style="margin: 0 auto; margin-top: 40%;"></div>
+        <div id="label-container" style="text-align: center;"></div>
+        <div class="center-block" style="margin: auto;">
+            <button type="button" onclick="predict()" id="img_btn" ><img  src="buttonimage.png"></button>
+        </div>
+        
         
     </div>
 </body>
