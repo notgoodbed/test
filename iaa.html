@@ -43,7 +43,7 @@
 
             // Convenience function to setup a webcam
             const flip = true; // whether to flip the webcam
-            webcam = new tmImage.Webcam(320, 320, flip); // width, height, flip
+            webcam = new tmImage.Webcam(322, 322, flip); // width, height, flip
             await webcam.setup(); // request access to the webcam
             await webcam.play();
             window.requestAnimationFrame(loop);
@@ -76,12 +76,11 @@
 <body class="container" style="text-align:center">
     
     <div class="mt-3"><h1>이름</h1></div>
-    <button type="button" onclick="init()">Start</button>
-    <script>
-        init()
-    </script>
+    <button type="button" onclick="init()" id = "die">Start</button>
+    
     <div id="webcam-container"></div>
-    <div id="label-container"></div>
+    <div id="label-container" style="text-align: centor;"></div>
+    <button type="button" onclick="predict()">판독시작</button>
     
 </body>
 </html>
