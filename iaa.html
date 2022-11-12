@@ -27,36 +27,21 @@
         }
     </style>
     <script type="text/javascript">
-    
-    
-        // More API functions here:
-        // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
-
-        // the link to your model provided by Teachable Machine export panel
         const URL = "https://teachablemachine.withgoogle.com/models/ORJErg5B6/";
 
         let model, webcam, labelContainer, maxPredictions;
-
-        // Load the image model and setup the webcam
+        var h = screen.availHeight
         async function init() {
             const modelURL = URL + "model.json";
-            const metadataURL = URL + "metadata.json";
-
-            // load the model and metadata
-            // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
-            // or files from your local hard drive
-            // Note: the pose library adds "tmImage" object to your window (window.tmImage)
+            const metadataURL = URL + "metadata.json";            
             model = await tmImage.load(modelURL, metadataURL);
             console.log(model)
             maxPredictions = model.getTotalClasses();
-
-            // Convenience function to setup a webcam
-            const flip = false; // whether to flip the webcam
-            webcam = new tmImage.Webcam(322, 322, flip); // width, height, flip
-            await webcam.setup({ facingMode: "environment" }); // request access to the webcam
+            const flip = false;
+            webcam = new tmImage.Webcam(322, 322, flip);
+            await webcam.setup({ facingMode: "environment" }); 
             await webcam.play();
             window.requestAnimationFrame(loop);
-            // append elements to the DOM
             document.getElementById("webcam-container").appendChild(webcam.canvas);
             labelContainer = document.getElementById("label-container");
             for (let i = 0; i < maxPredictions; i++) { // and class labels
@@ -65,13 +50,11 @@
         }
 
         async function loop() {
-            webcam.update(); // update the webcam frame
+            webcam.update();
             window.requestAnimationFrame(loop);
         }
 
-        // run the webcam image through the image model
         async function predict() {
-            // predict can take in an image, video or canvas html element
             const prediction = await model.predict(webcam.canvas);
             var a = 0
             var k = 0
@@ -97,7 +80,7 @@
             init()
         </script>
         
-        <div id="webcam-container" style="margin: 0 auto; margin-top: 40%;"></div>
+        <div id="webcam-container" style="margin: 0 auto; margin-top: 130px;"></div>
         <div id="label-container" style="text-align: center;"></div>
         <div class="center-block" style="margin: auto;">
             <button type="button" onclick="predict()" id="img_btn" ><img  src="buttonimage.png"></button>
