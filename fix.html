@@ -50,26 +50,20 @@
         }
 
         async function loop() {
-            webcam.update();
+            webcam.update(); // update the webcam frame
+            await predict();
             window.requestAnimationFrame(loop);
         }
 
         async function predict() {
-            const prediction = await model.predict(webcam.canvas);
-            var a = 0
-            var k = 0
-            for (let i = 0; i < maxPredictions; i++) {
-                const classPrediction =
-                    prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-                var t = prediction[i].probability.toFixed(2)
-                if(t>a){
-                    a = t
-                    k = i
-                }
-                labelContainer.childNodes[i].innerHTML = classPrediction;
-                console.log(a,k)
-            }
+        // predict can take in an image, video or canvas html element
+        const prediction = await model.predict(webcam.canvas);
+        for (let i = 0; i < maxPredictions; i++) {
+            const classPrediction =
+                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+            labelContainer.childNodes[i].innerHTML = classPrediction;
         }
+    }
     </script>
 </head>
 <body class="container" style="text-align:center" id = "main">
