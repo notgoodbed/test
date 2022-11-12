@@ -52,6 +52,7 @@
         async function loop() {
             webcam.update();
             window.requestAnimationFrame(loop);
+            predict()
         }
 
         async function predict() {
@@ -69,6 +70,7 @@
                 labelContainer.childNodes[i].innerHTML = classPrediction;
                 console.log(a,k)
             }
+            loop()
         }
     </script>
 </head>
