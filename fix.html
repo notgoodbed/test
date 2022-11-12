@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <style>
+        button{
+            all:unset
+        }
+        #main{
+            /* background: no-repeat bottom url("cameraBackground.png"); */
+
+            /* height: 100vh; */
+            background-color: rgba(32, 32, 32, 0.801);
+            background-image: url(cameraBackground.png);
+            /*background-size: cover;*/
+            background-repeat: no-repeat;
+            background-position: center top;
+        }
+    </style>
+    <script type="text/javascript">
+        const URL = "https://teachablemachine.withgoogle.com/models/ORJErg5B6/";
+
+        let model, webcam, labelContainer, maxPredictions;
+        var h = screen.availHeight
+        async function init() {
+            const modelURL = URL + "model.json";
+            const metadataURL = URL + "metadata.json";            
+            model = await tmImage.load(modelURL, metadataURL);
+            console.log(model)
+            maxPredictions = model.getTotalClasses();
+            const flip = false;
+            webcam = new tmImage.Webcam(322, 322, flip);
+            await webcam.setup({ facingMode: "environment" }); 
+            await webcam.play();
+            window.requestAnimationFrame(loop);
+            document.getElementById("webcam-container").appendChild(webcam.canvas);
+            labelContainer = document.getElementById("label-container");
+            for (let i = 0; i < maxPredictions; i++) { // and class labels
+                labelContainer.appendChild(document.createElement("div"));
+            }
+        }
+
+        async function loop() {
+            webcam.update();
+            window.requestAnimationFrame(loop);
+        }
+
+        async function predict() {
+            const prediction = await model.predict(webcam.canvas);
+            var a = 0
+            var k = 0
+            for (let i = 0; i < maxPredictions; i++) {
+                const classPrediction =
+                    prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+                var t = prediction[i].probability.toFixed(2)
+                if(t>a){
+                    a = t
+                    k = i
+                }
+                labelContainer.childNodes[i].innerHTML = classPrediction;
+                console.log(a,k)
+            }
+        }
+    </script>
+</head>
+<body class="container" style="text-align:center" id = "main">
+    <div>
+        
+        <script>
+            init()
+        </script>
+        
+        <div id="webcam-container" style="margin: 0 auto; margin-top: 130px;"></div>
+        <div id="label-container" style="text-align: center;"></div>
+        <div class="center-block" style="margin: auto;">
+            <button type="button" onclick="predict()" id="img_btn" ><img  src="buttonimage.png"></button>
+        </div>
+        
+        
+    </div>
+</body>
+</html>
+    
