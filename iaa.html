@@ -11,17 +11,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+
     <style>
         button{
             all:unset
         }
         #main{
-            /* background: no-repeat bottom url("cameraBackground.png"); */
-
-            /* height: 100vh; */
             background-color: rgba(211, 167, 167, 1);
             background-image: url(cameraBackground.png);
-            /*background-size: cover;*/
             background-repeat: no-repeat;
             background-position: center top;
         }
@@ -34,17 +31,17 @@
         async function init() {
             const modelURL = URL + "model.json";
             const metadataURL = URL + "metadata.json";            
-            model = await tmImage.load(modelURL, metadataURL);
+            model = await tmImage.load(modelURL, metadataURL); // teachablemachine에서 모델과 데이터 로드
             console.log(model)
             maxPredictions = model.getTotalClasses();
             const flip = false;
-            webcam = new tmImage.Webcam(322, 322, flip);
-            await webcam.setup({ facingMode: "environment" }); 
+            webcam = new tmImage.Webcam(322, 322, flip); // 웹캠 설정
+            await webcam.setup({ facingMode: "environment" }); // 웹캠의 종류 설정
             await webcam.play();
-            window.requestAnimationFrame(loop);
+            window.requestAnimationFrame(loop); //사용자에게 웹캠을 보여주고 계속 사진을 바꾸어서 동영상처럼 보이게 함
             document.getElementById("webcam-container").appendChild(webcam.canvas);
             labelContainer = document.getElementById("label-container");
-            for (let i = 0; i < maxPredictions; i++) { // and class labels
+            for (let i = 0; i < maxPredictions; i++) {
                 labelContainer.appendChild(document.createElement("div"));
             }
         }
@@ -55,7 +52,7 @@
         }
 
         async function predict() {
-            const prediction = await model.predict(webcam.canvas);
+            const prediction = await model.predict(webcam.canvas); // 웹캠에서 한 장 뽑아와서 모델 예측
             var a = 0
             var k = 0
             for (let i = 0; i < maxPredictions; i++) {
