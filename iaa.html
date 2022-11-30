@@ -32,12 +32,12 @@
             const modelURL = URL + "model.json";
             const metadataURL = URL + "metadata.json";            
             model = await tmImage.load(modelURL, metadataURL); // teachablemachine에서 모델과 데이터 로드
-            console.log(model)
+            console.log(model) //모델의 정보 확인
             maxPredictions = model.getTotalClasses();
             const flip = false;
-            webcam = new tmImage.Webcam(322, 322, flip); // 웹캠 설정
-            await webcam.setup({ facingMode: "environment" }); // 웹캠의 종류 설정
-            await webcam.play();
+            webcam = new tmImage.Webcam(322, 322, flip); // 웹캠의 크기를 teachablemachine에 맞춰서 322x322로 설정
+            await webcam.setup({ facingMode: "environment" }); // 웹캠의 종류를 후면 카메라로 설정
+            await webcam.play();// 웹캠 시작
             window.requestAnimationFrame(loop); //사용자에게 웹캠을 보여주고 계속 사진을 바꾸어서 동영상처럼 보이게 함
             document.getElementById("webcam-container").appendChild(webcam.canvas);
             labelContainer = document.getElementById("label-container");
@@ -59,13 +59,12 @@
                 const classPrediction =
                     prediction[i].className + ": " + prediction[i].probability.toFixed(2);
                 var t = prediction[i].probability.toFixed(2)
-                if(t>a){
+                if(t>a){ // 모델별 가장 큰 정확도를 가진 결과 찾기
                     a = t
                     k = i
                 }
                 labelContainer.childNodes[i].innerHTML = classPrediction;
-                console.log(a,k)
-                window.location.href = k+".html"
+                window.location.href = k+".html" // 예측 결과에 따라 맞는 페이지 연결
             }
         }
     </script>
