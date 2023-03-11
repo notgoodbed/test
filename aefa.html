@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Cat Eye Camera</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+</head>
+<body>
+    <video id="video" width="320" height="240" autoplay></video>
+    <button id="snap">Take Photo</button>
+    <script>
+        const video = document.getElementById('video');
+        const snap = document.getElementById('snap');
+        const socket = io();
+
+        // 미디어 스트림 가져오기
+        navigator.mediaDevices.getUserMedia({video: true})
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                console.error(err);
+            });
+
+        // 사진 촬영
+        snap.addEventListener('click', function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL('image/jpeg');
+            socket.emit('image', dataUrl);
+        });
+    </script>
+</body>
+</html>
