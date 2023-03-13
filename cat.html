@@ -40,7 +40,11 @@
             window.requestAnimationFrame(loop);
         }
 
+
         function sendImage() {
+            
+            var formData = new FormData();
+            formData.append('image',webcam.canvas);
 
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/predict');
@@ -50,8 +54,9 @@
                 } else {
                     console.log('Request failed.  Returned status of ' + xhr.status);
                 }
-        }
-    }
+            };
+            xhr.send(formData);
+            }
     </script>
 </head>
 <body class="container" style="text-align:center" id = "main">
