@@ -47,7 +47,7 @@
             formData.append('image',webcam.canvas);
 
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/pradict.py');
+            xhr.open('POST', 'test/pradict.py');
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     console.log(xhr.responseText);
