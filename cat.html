@@ -42,21 +42,22 @@
 
 
         function sendImage() {
-            
             var formData = new FormData();
-            formData.append('image',webcam.canvas);
+            formData.append('image', webcam.canvas);
 
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'https://notgoodbed.github.io/test/pradict.py');
+            xhr.open('POST', '/predict');
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     console.log(xhr.responseText);
                 } else {
-                    console.log('Request failed.  Returned status of ' + xhr.status);
+                    console.log('Request failed. Returned status of ' + xhr.status);
                 }
             };
+            console.log(formData)
             xhr.send(formData);
-            }
+        }
+        
     </script>
 </head>
 <body class="container" style="text-align:center" id = "main">

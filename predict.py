@@ -2,11 +2,7 @@ from PIL import Image
 from flask import Flask, request
 
 
-from flask import Flask
-from flask_cors import CORS
-
 app = Flask(__name__)
-CORS(app)
 print(app)
 @app.route('/predict', methods=['POST'])
 def predict():
