@@ -14,15 +14,21 @@
   </head>
   <body>
     <h1>Webcam App</h1>
-    <video autoplay="true" id="videoElement"></video>
+    <div id="webcamContainer"></div>
     <button id="captureButton">Capture</button>
     <script>
       // 웹캠 액세스 및 video 요소에 연결하는 JavaScript 코드
-      var video = document.querySelector("#videoElement");
+      var webcamContainer = document.querySelector("#webcamContainer");
+      var captureButton = document.querySelector("#captureButton");
+
       if (navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ video: true })
           .then(function (stream) {
+            var video = document.createElement("video");
             video.srcObject = stream;
+            video.autoplay = true;
+            video.id = "videoElement";
+            webcamContainer.appendChild(video);
           })
           .catch(function (error) {
             console.log("Something went wrong with webcam access:", error);
@@ -30,7 +36,6 @@
       }
 
       // 캡처 버튼에 클릭 이벤트를 추가하는 코드
-      var captureButton = document.querySelector("#captureButton");
       captureButton.addEventListener("click", function () {
         // 여기에 캡처하는 기능을 추가하세요.
         // 예를 들어, 캡처된 이미지를 서버로 업로드하거나 판독하는 로직을 추가할 수 있습니다.
