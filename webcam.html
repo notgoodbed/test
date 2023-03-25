@@ -1,45 +1,49 @@
 <!DOCTYPE html>
 <html>
-  <head>
     <meta charset="UTF-8">
-    <title>Webcam App</title>
-    <style>
-      /* CSS 스타일링 */
-      #videoElement {
-        width: 244px;
-        height: 244px;
-        margin-bottom: 10px;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Webcam App</h1>
-    <div id="webcamContainer"></div>
-    <button id="captureButton">Capture</button>
-    <script>
-      // 웹캠 액세스 및 video 요소에 연결하는 JavaScript 코드
-      var webcamContainer = document.querySelector("#webcamContainer");
-      var captureButton = document.querySelector("#captureButton");
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+    
+        <meta charset="UTF-8">
+        <title>Webcam App</title>
+        <style>
+        /* CSS 스타일링 */
+        #videoElement {
+            width: 244px;
+            height: 244px;
+            margin-bottom: 10px;
+        }
+        </style>
+    </head>
+    <body>
+        <h1>Webcam App</h1>
+        <div id="webcamContainer"></div>
+        <button id="captureButton">Capture</button>
+        <script>
+        // 웹캠 액세스 및 video 요소에 연결하는 JavaScript 코드
+        var webcamContainer = document.querySelector("#webcamContainer");
+        var captureButton = document.querySelector("#captureButton");
 
-      if (navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true })
-          .then(function (stream) {
-            var video = document.createElement("video");
-            video.srcObject = stream;
-            video.autoplay = true;
-            video.id = "videoElement";
-            webcamContainer.appendChild(video);
-          })
-          .catch(function (error) {
-            console.log("Something went wrong with webcam access:", error);
-          });
-      }
+        if (navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+                var video = document.createElement("video");
+                video.srcObject = stream;
+                video.autoplay = true;
+                video.id = "videoElement";
+                webcamContainer.appendChild(video);
+            })
+            .catch(function (error) {
+                console.log("Something went wrong with webcam access:", error);
+            });
+        }
 
-      // 캡처 버튼에 클릭 이벤트를 추가하는 코드
-      captureButton.addEventListener("click", function () {
-        // 여기에 캡처하는 기능을 추가하세요.
-        // 예를 들어, 캡처된 이미지를 서버로 업로드하거나 판독하는 로직을 추가할 수 있습니다.
-      });
-    </script>
-  </body>
+        // 캡처 버튼에 클릭 이벤트를 추가하는 코드
+        captureButton.addEventListener("click", function () {
+            // 여기에 캡처하는 기능을 추가하세요.
+            // 예를 들어, 캡처된 이미지를 서버로 업로드하거나 판독하는 로직을 추가할 수 있습니다.
+        });
+        </script>
+    </body>
 </html>
