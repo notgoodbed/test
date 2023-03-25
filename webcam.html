@@ -13,12 +13,14 @@
         <style>
         /* CSS 스타일링 */
         #videoElement {
-            width: 244px;
-            height: 244px;
+            width: 322px;
+            height: 322px;
             margin-bottom: 10px;
+            object-fit: cover;
         }
         button{
-            all:unset
+            all:unset;
+            background-image : url(buttonimage.png);
         }
         #main{
             background-color: rgba(211, 167, 167, 1);
@@ -29,9 +31,10 @@
         </style>
     </head>
     <body class="container" style="text-align:center" id = "main">
-        <h1>Webcam App</h1>
-        <div id="webcamContainer"></div>
-        <button id="captureButton">Capture</button>
+        <div id="webcamContainer" style="margin: 0 auto; margin-top: 130px;"></div>
+        <button id="captureButton" class="center-block" style="margin: auto;">
+            <img src="buttonimage.png" alt="Capture Button">
+        </button>
         <script>
         // 웹캠 액세스 및 video 요소에 연결하는 JavaScript 코드
         var webcamContainer = document.querySelector("#webcamContainer");
@@ -53,8 +56,22 @@
 
         // 캡처 버튼에 클릭 이벤트를 추가하는 코드
         captureButton.addEventListener("click", function () {
-            // 여기에 캡처하는 기능을 추가하세요.
-            // 예를 들어, 캡처된 이미지를 서버로 업로드하거나 판독하는 로직을 추가할 수 있습니다.
+            var canvas = document.createElement("canvas");
+            var video = document.querySelector("#videoElement");
+            canvas.width = 322;
+            canvas.height = 322;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            var dataURL = canvas.toDataURL();
+            var formData = new FormData();
+            formData.append('image', dataURL);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'predict.py', true);
+            xhr.onload = function() {
+            if (this.status === 200) {
+                console.log(this.responseText);
+            }
+            };
+            xhr.send(formData);
         });
         </script>
     </body>
