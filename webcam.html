@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Webcam App</title>
+    <style>
+      /* CSS 스타일링 */
+      #videoElement {
+        width: 244px;
+        height: 244px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Webcam App</h1>
+    <video autoplay="true" id="videoElement"></video>
+    <button id="captureButton">Capture</button>
+    <script>
+      // 웹캠 액세스 및 video 요소에 연결하는 JavaScript 코드
+      var video = document.querySelector("#videoElement");
+      if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then(function (stream) {
+            video.srcObject = stream;
+          })
+          .catch(function (error) {
+            console.log("Something went wrong with webcam access:", error);
+          });
+      }
+
+      // 캡처 버튼에 클릭 이벤트를 추가하는 코드
+      var captureButton = document.querySelector("#captureButton");
+      captureButton.addEventListener("click", function () {
+        // 여기에 캡처하는 기능을 추가하세요.
+        // 예를 들어, 캡처된 이미지를 서버로 업로드하거나 판독하는 로직을 추가할 수 있습니다.
+      });
+    </script>
+  </body>
+</html>
