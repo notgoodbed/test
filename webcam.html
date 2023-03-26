@@ -65,7 +65,7 @@
             var formData = new FormData();
             formData.append('image', dataURL);
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/predict', true);
+            xhr.open('POST', 'https://notgoodbed.github.io/predict.py', true);
             xhr.onload = function() {
             if (this.status === 200) {
                 console.log(this.responseText);
